@@ -1,0 +1,46 @@
+Twitter Clone
+Este proyecto es un clon de Twitter desarrollado con Node.js y PostgreSQL. 
+Proporciona una API para interactuar con la aplicación tipo red social.
+
+#Configuración inicial
+Sigue los pasos a continuación para configurar el proyecto en tu entorno local:
+
+Clona este repositorio en tu máquina local:
+
+bash
+Copy code
+git clone https://gitlab.com/uc-ing-soft/2023-is3/ucgre/tp-grupo-02-y-04/trabajo-practico-bd-y-alpinejs/-/tree/dev
+Instala las dependencias del proyecto. Asegúrate de tener Node.js y npm 
+instalados en tu sistema. Ejecuta el siguiente comando en la carpeta raíz del proyecto:
+
+Copy code
+npm install
+Esto instalará las dependencias necesarias, que incluyen Express, Nodemon y pg.
+
+#Crea una base de datos en PostgreSQL llamada "twitter_clone". Puedes usar 
+una herramienta de administración de PostgreSQL como pgAdmin o ejecutar 
+el siguiente comando en la línea de comandos de PostgreSQL:
+CREATE DATABASE twitter_clone;
+
+Crea las tablas en la base de datos. En la carpeta "docs" del proyecto, encontrarás 
+el archivo "cerbas.sql". Ejecuta el contenido de este archivo en tu base de datos 
+"twitter_clone" para crear las tablas necesarias.
+
+Inserta los datos iniciales en las tablas. En la misma carpeta "docs", encontrarás 
+el archivo "insert.sql". Ejecuta el contenido de este archivo en tu base de datos 
+"twitter_clone" para insertar datos de muestra.
+
+Antes de ejecutar el proyecto tener en cuenta configurar la conexion a la base de datos
+en la constante Pool en el archivo index.controller.js ubicada en la siguiente direccion
+src/controllers/
+
+#Ejecutar el proyecto
+Una vez que hayas configurado la base de datos y las tablas, puedes ejecutar el 
+servicio de Twitter Clone en tu entorno local.
+
+Ejecuta el siguiente comando en la carpeta raíz del proyecto:
+npm run dev
+
+
+El usuaro asignado al profesor es: @omar
+contraseña: 123456

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #chart-container {
+            width: 100%;
+            height: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .node {
+            cursor: pointer;
+        }
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+        .node text {
+            font: 10px sans-serif;
+        }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container"></div>
+
+    <script>
+        const data = {
+            name: "Gobierno",
+            children: [
+                {
+                    name: "Poder Ejecutivo",
+                    children: [
+                        {
+                            name: "Presidencia de la República",
+                            children: [
+                                {
+                                    name: "Ministerio de Salud Pública y Bienestar Social",
+                                    children: [
+                                        { name: "Dirección General de Atención Primaria de Salud" },
+                                        { name: "Dirección General de Salud Ambiental" },
+                                        { name: "Dirección General de Enfermedades No Transmisibles" }
+                                    ]
+                                },
+                                {
+                                    name: "Ministerio de Justicia",
+                                    children: [
+                                        { name: "Dirección General de Asesoría Jurídica" },
+                                        { name: "Dirección General de Asuntos Penales" },
+                                        { name: "Dirección General de Asuntos Civiles" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "Poder Legislativo",
+                    children: [
+                        {
+                            name: "Congreso Nacional (CN)",
+                            children: [
+                                {
+                                    name: "Honorable Cámara de Senadores (HCS)",
+                                    children: [
+                                        { name: "Comisiones" },
+                                        { name: "Senadores" },
+                                        { name: "Secretaría del Senado" }
+                                    ]
+                                },
+                                {
+                                    name: "Honorable Cámara de Diputados (HCD)",
+                                    children: [
+                                        { name: "Comisiones" },
+                                        { name: "Diputados" },
+                                        { name: "Secretaría de la Cámara" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "Poder Judicial",
+                    children: [
+                        {
+                            name: "Corte Suprema de Justicia",
+                            children: [
+                                {
+                                    name: "Ministerio Público (MP)",
+                                    children: [
+                                        { name: "Fiscalías Especializadas" },
+                                        { name: "Fiscales" },
+                                        { name: "Secretaría General del Ministerio Público" }
+                                    ]
+                                },
+                                {
+                                    name: "Ministerio de la Defensa Pública (MDP)",
+                                    children: [
+                                        { name: "Dirección General de Defensa Penal" },
+                                        { name: "Defensa Penal de Menores" },
+                                        { name: "Defensa Penal de Adultos" },
+                                        { name: "Defensa Penal Especializada" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const width = 1300;
+        const height = 700;
+        const margin = { top: 20, right: 200, bottom: 30, left: 90 };
+
+        const svg = d3.select("#chart-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const treeLayout = d3.tree().size([height - margin.top - margin.bottom, width - margin.left - margin.right]);
+
+        const root = d3.hierarchy(data);
+        treeLayout(root);
+
+        const link = svg.selectAll(".link")
+            .data(root.links())
+            .enter().append("path")
+            .attr("class", "link")
+            .attr("d", d3.linkHorizontal()
+                .x(d => d.y)
+                .y(d => d.x));
+
+        const node = svg.selectAll(".node")
+            .data(root.descendants())
+            .enter().append("g")
+            .attr("class", d => "node" + (d.children ? " node--internal" : " node--leaf"))
+            .attr("transform", d => `translate(${d.y},${d.x})`);
+
+        node.append("circle")
+            .attr("r", 5)
+            .style("fill", d => {
+                if (d.data.name.includes("Ejecutivo")) return "#e6f3e6";
+                if (d.data.name.includes("Legislativo")) return "#f9e6e6";
+                if (d.data.name.includes("Judicial")) return "#fff2e6";
+                return "#fff";
+            });
+
+        node.append("text")
+            .attr("dy", ".35em")
+            .attr("x", d => d.children ? -13 : 13)
+            .style("text-anchor", d => d.children ? "end" : "start")
+            .text(d => d.data.name)
+            .style("font-size", "12px")
+            .call(wrap, 200);
+
+        function wrap(text, width) {
+            text.each(function() {
+                let text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1,
+                    y = text.attr("y"),
+                    dy = parseFloat(text.attr("dy")),
+                    tspan = text.text(null).append("tspan").attr("x", function(d) { return d.children ? -13 : 13; }).attr("y", y).attr("dy", dy + "em");
+                while (word = words.pop()) {
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", function(d) { return d.children ? -13 : 13; }).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

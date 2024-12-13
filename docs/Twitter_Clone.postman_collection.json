@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "2698e954-349a-4b91-b182-0aef1375d428",
+		"name": "Twitter_Clone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18051720"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Listado de usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado de tweets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJ1c2VyX25hbWUiOiJBbGVqYW5kcm8iLCJ1c2VyX2FjY291bnQiOiJAbGVqYW5kcm8iLCJ1c2VyX2F2YXRhciI6Im1hbGUtMDIuanBnIiwidXNlcl92ZXJpZmllZCI6ZmFsc2UsInVzZXJfcGFzc3dvcmQiOiIkMmIkMTAkSTdKYUZqZjU0TU1LbGU1dlBNbzZYZWI0YU92aEYudzNTSWl6NnlFRUEuVzA2QzlFWjVtQ1MiLCJpYXQiOjE2ODgwODQ5Njh9.hTb79EkcGYqOxhbaG4N0SkRIycSi1S-z1KvhLT3jeGI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/tweets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tweets"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar tweet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/addTweet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addTweet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liked tweet",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retweet",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Desencriptado",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

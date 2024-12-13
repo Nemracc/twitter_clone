@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitter Clone - Final</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+  <script defer src="/js/cdn.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="main" x-data="loginComponent()">
+    <div class="login">
+      <div class="feed__header">
+        <h2>Login</h2>
+      </div>
+
+      <div class="tweetBox">
+        <form action="/login" method="post">
+          <label for="user_account"><b>Usuario</b></label>
+          <input type="text" id="user_account" class="input">
+          <label for="user_password"><b>Contraseña</b></label>
+          <input type="password" id="user_password" class="input">
+
+          <div>
+            <button @click.prevent="login" class="tweetBox__tweetButton" id="login" :value="1">Login</button>
+            <button class="tweetBox__tweetButton">Registrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+</script>
+<script src="/js/login.js">
+
+</script>
+
+</html>

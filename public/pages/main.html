@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter Clone - Final</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+</head>
+
+<body>
+    <!-- sidebar starts -->
+    <div class="sidebar">
+        <i class="fab fa-twitter"></i>
+        <div class="sidebarOption active">
+            <span class="material-icons"> home </span>
+            <h2>Home</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> search </span>
+            <h2>Explore</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> notifications_none </span>
+            <h2>Notifications</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> mail_outline </span>
+            <h2>Messages</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> bookmark_border </span>
+            <h2>Bookmarks</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> list_alt </span>
+            <h2>Lists</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> perm_identity </span>
+            <h2>Profile</h2>
+        </div>
+
+        <div class="sidebarOption">
+            <span class="material-icons"> more_horiz </span>
+            <h2>More</h2>
+        </div>
+        <button class="sidebar__tweet">Tweet</button>
+    </div>
+    <!-- sidebar ends -->
+
+    <!-- feed starts -->
+    <div class="feed" x-data="start()">
+        <div class="feed__header">
+            <h2>Home</h2>
+        </div>
+
+        <!-- tweetbox starts -->
+        <div class="tweetBox">
+            <form>
+                <div class="tweetbox__input">
+                    <span class="contador" x-text="conta"></span>
+                    <img :src="urlImagen" alt="" id="imag" />
+                    <input type="text" placeholder="What's happening?" id="text" @input.debounce.1000ms="contador()"
+                        required maxlength="280" />
+                </div>
+                <div class="url">
+                    <ion-icon name="camera-outline" @click="ingreurl(event)"></ion-icon>
+                    <div class="urlinput" id="urlinput">
+                        <input type="url" name="url" id="url" placeholder="https://example.com">
+                    </div>
+                </div>
+
+                <div class="publicar">
+                    <button @click.prevent="logout()" class="tweetBox__tweetButton" id="login">logout</button>
+                    <button @click.prevent="actualizar()" class="tweetBox__tweetButton">Actualizar</button>
+                    <button class="tweetBox__tweetButton" id="tweet" @click.prevent="twit()">Tweet</button>
+                </div>
+            </form>
+        </div>
+        <div class="spinner_contenedor">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- post starts -->
+        <template x-for="(tweet, index) in listaTweets" :key="index">
+            <div class="post" :id="tweet.tweet_id">
+                <div class="post__avatar">
+                    <img :src="tweet.user_avatar" alt="" />
+                </div>
+
+                <div class="post__body">
+                    <div class="post__header">
+                        <div class="post__headerText">
+                            <h3 x-text="tweet.user_name">
+                                <span class="post__headerSpecial" x-text="tweet.user_account">
+                                    <span class="material-icons post__badge" x-show="tweet.user_verified"> verified
+                                    </span>
+                                </span>
+                            </h3>
+                        </div>
+                        <div class="post__headerDescription">
+                            <p x-text="tweet.tweet_text"></p>
+                        </div>
+                        <img :src="tweet.tweet_img_url" alt="imagen tweet" x-show="tweet.tweet_img_url" />
+                    </div>
+                    <div class="post__footer">
+                        <span class="material-icons" name="retweet" style="color: red;" x-show="tweet.ut_retweeted">
+                            repeat</span>
+                        <span class="material-icons" name="retweet" x-show="!tweet.ut_retweeted">
+                            repeat</span>
+                        <span class="material-icons" name="liked" style="color: red;" x-show="tweet.ut_liked">
+                            favorite_border </span>
+                        <span class="material-icons" name="liked" x-show="!tweet.ut_liked">
+                            favorite_border </span>
+                        <span class="material-icons"> publish </span>
+                    </div>
+                    <div class="conta">
+                        <span x-text="tweet.count_retweeted"></span>
+                        <span x-text="tweet.count_liked"></span>
+                        <span>0</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- post ends -->
+        <!-- tweetbox ends -->
+
+    </div>
+    <!-- feed ends -->
+
+
+
+    <div class="widgets__widgetContainer">
+        <h2>What's happening?</h2>
+        <blockquote class="twitter-tweet">
+            <p lang="en" dir="ltr">
+                Sunsets don&#39;t get much better than this one over
+                <a href="https://twitter.com/GrandTetonNPS?ref_src=twsrc%5Etfw">@GrandTetonNPS</a>.
+                <a href="https://twitter.com/hashtag/nature?src=hash&amp;ref_src=twsrc%5Etfw">#nature</a>
+                <a href="https://twitter.com/hashtag/sunset?src=hash&amp;ref_src=twsrc%5Etfw">#sunset</a>
+                <a href="http://t.co/YuKy2rcjyU">pic.twitter.com/YuKy2rcjyU</a>
+            </p>
+            &mdash; US Department of the Interior (@Interior)
+            <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw">May 5, 2014</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    </div>
+    <!-- widgets ends -->
+</body>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<!-- <script>
+    var socket = io();
+</script> -->
+<script src="/js/msg.js"></script>
+<script src="/js/scripts.js"></script>
+
+</html>
